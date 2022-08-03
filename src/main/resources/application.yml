@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/security_demo?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: root
+mybatis:
+  mapper-locations: classpath:mapper/**.xml
+jwt:
+  secret: aaabbbcccdddeeefffggghhhiiijjjkkklllmmmnnnooopppqqqrrrsssttt
+  expiration: 1209600
+  tokenHeader: token  # 请求头
+  tokenHead: eyJhbGciOiJIUzUxMiJ9 # jwt Header
