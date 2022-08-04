@@ -7,6 +7,7 @@ import com.ao.security.exception.PasswordNotMatchException;
 import com.ao.security.service.UserService;
 import com.ao.security.utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,6 +33,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
     @Override
     public List<Menu> getPermsByUserId(Integer userId) {
         return userMapper.getPermsByUserId(userId);
@@ -54,6 +58,22 @@ public class UserServiceImpl implements UserService {
             // 生成token返回
             token = jwtTokenUtil.generateToken(userDetails);
         }
+
+        /**
+         * 第二种方式: 通过调用authenticate方式
+         */
+//        // 将用户名和密码封装为一个Authentication对象
+//        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+//        // 调用认证方法
+//        Authentication authenticate = authenticationManager.authenticate(authenticationToken);
+//        if (Objects.isNull(authenticate)) {
+//            throw new PasswordNotMatchException("用户名或密码错误");
+//        }
+//        UserAuthDetails userDetails = (UserAuthDetails) authenticate.getPrincipal();
+//        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,  userDetails.getAuthorities());
+//        SecurityContextHolder.getContext().setAuthentication(authentication)
+        // 生成token返回
+//        token = jwtTokenUtil.generateToken(userDetails);
         return token;
     }
 }
